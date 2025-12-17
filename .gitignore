@@ -1,0 +1,38 @@
+# 依存関係
+node_modules/
+
+# ビルド成果物（CRXJSビルド除く）
+dist/
+build/
+
+# キャッシュ
+.vite/
+*.tsbuildinfo
+
+# IDE
+.idea/
+.vscode/
+*.swp
+*.swo
+
+# OS
+.DS_Store
+Thumbs.db
+
+# 環境変数
+.env
+.env.*
+
+# ログ
+*.log
+npm-debug.log*
+
+# note記事
+articles/
+
+# テスト
+coverage/
+
+# 一時ファイル
+*.tmp
+*.temp

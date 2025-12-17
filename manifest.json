@@ -1,0 +1,39 @@
+{
+  "manifest_version": 3,
+  "name": "Gmail Priority Sorter - メール優先度自動分類",
+  "version": "1.0.0",
+  "description": "AIがGmailの受信トレイを分析し、重要メールを上位に並べ替え、緊急度スコアを自動付与します",
+  "icons": {
+    "16": "icons/icon16.png",
+    "48": "icons/icon48.png",
+    "128": "icons/icon128.png"
+  },
+  "action": {
+    "default_popup": "src/popup/index.html",
+    "default_icon": {
+      "16": "icons/icon16.png",
+      "48": "icons/icon48.png"
+    },
+    "default_title": "Gmail Priority Sorter"
+  },
+  "options_page": "src/options/index.html",
+  "permissions": [
+    "storage",
+    "activeTab"
+  ],
+  "host_permissions": [
+    "https://mail.google.com/*"
+  ],
+  "content_scripts": [
+    {
+      "matches": ["https://mail.google.com/*"],
+      "js": ["src/content/index.tsx"],
+      "css": ["src/styles/content.css"],
+      "run_at": "document_idle"
+    }
+  ],
+  "background": {
+    "service_worker": "src/background/index.ts",
+    "type": "module"
+  }
+}

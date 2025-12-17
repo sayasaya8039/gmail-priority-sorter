@@ -1,0 +1,36 @@
+{
+  "name": "gmail-priority-sorter",
+  "version": "1.0.0",
+  "description": "AIがGmailの受信トレイを分析し、重要メールを上位に並べ替え、緊急度スコアを自動付与するChrome拡張機能",
+  "main": "index.js",
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build",
+    "preview": "vite preview",
+    "lint": "tsc --noEmit"
+  },
+  "keywords": [
+    "gmail",
+    "chrome-extension",
+    "email",
+    "priority",
+    "classification"
+  ],
+  "author": "",
+  "license": "MIT",
+  "type": "module",
+  "dependencies": {
+    "react": "^19.2.3",
+    "react-dom": "^19.2.3"
+  },
+  "devDependencies": {
+    "@crxjs/vite-plugin": "^2.3.0",
+    "@types/chrome": "^0.1.32",
+    "@types/react": "^19.2.7",
+    "@types/react-dom": "^19.2.3",
+    "@vitejs/plugin-react": "^5.1.2",
+    "sharp": "^0.34.5",
+    "typescript": "^5.9.3",
+    "vite": "^7.3.0"
+  }
+}

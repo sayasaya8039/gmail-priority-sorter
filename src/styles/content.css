@@ -1,0 +1,101 @@
+/**
+ * Gmail Priority Sorter - コンテンツスタイル
+ */
+
+/* バッジコンテナ */
+.gps-badge {
+  display: inline-flex !important;
+  align-items: center !important;
+  gap: 4px !important;
+  margin-right: 8px !important;
+  font-size: 11px !important;
+  vertical-align: middle !important;
+  white-space: nowrap !important;
+}
+
+/* カテゴリアイコン */
+.gps-category {
+  font-size: 12px !important;
+}
+
+/* 優先度ラベル */
+.gps-priority {
+  padding: 2px 6px !important;
+  border-radius: 10px !important;
+  font-size: 10px !important;
+  font-weight: 600 !important;
+  letter-spacing: 0.5px !important;
+}
+
+/* スコアバッジ */
+.gps-score {
+  display: inline-block !important;
+  min-width: 24px !important;
+  height: 18px !important;
+  line-height: 18px !important;
+  text-align: center !important;
+  font-size: 10px !important;
+  font-weight: bold !important;
+  color: white !important;
+  border-radius: 9px !important;
+  margin-left: 8px !important;
+}
+
+/* 優先度別の行スタイル */
+.gps-critical {
+  background-color: rgba(220, 38, 38, 0.05) !important;
+}
+
+.gps-high {
+  background-color: rgba(234, 88, 12, 0.05) !important;
+}
+
+.gps-medium {
+  background-color: transparent !important;
+}
+
+.gps-low {
+  opacity: 0.85 !important;
+}
+
+/* ホバー時のスタイル */
+tr.zA:hover .gps-badge,
+tr.zE:hover .gps-badge {
+  transform: scale(1.05);
+  transition: transform 0.15s ease;
+}
+
+/* アニメーション */
+@keyframes gps-pulse {
+  0%, 100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.7;
+  }
+}
+
+.gps-critical .gps-priority {
+  animation: gps-pulse 2s ease-in-out infinite;
+}
+
+/* ダークモード対応 */
+@media (prefers-color-scheme: dark) {
+  .gps-critical {
+    background-color: rgba(220, 38, 38, 0.1) !important;
+  }
+
+  .gps-high {
+    background-color: rgba(234, 88, 12, 0.1) !important;
+  }
+
+  .gps-priority {
+    filter: brightness(0.95);
+  }
+}
+
+/* Gmailのダークテーマ対応 */
+body[style*="background-color: rgb(18, 18, 18)"] .gps-priority,
+body[style*="background-color:#121212"] .gps-priority {
+  filter: brightness(1.1);
+}

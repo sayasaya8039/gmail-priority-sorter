@@ -1,0 +1,539 @@
+/**
+ * オプションページスタイル
+ */
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  font-size: 14px;
+  line-height: 1.6;
+  color: #334155;
+  background: #F0F9FF;
+  min-height: 100vh;
+}
+
+.options-container {
+  max-width: 800px;
+  margin: 0 auto;
+  padding: 32px;
+}
+
+/* ヘッダー */
+.options-header {
+  text-align: center;
+  margin-bottom: 32px;
+  padding-bottom: 24px;
+  border-bottom: 2px solid #7DD3FC;
+}
+
+.header-content {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 16px;
+  margin-bottom: 12px;
+}
+
+.logo {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.logo-icon {
+  font-size: 36px;
+}
+
+.logo h1 {
+  font-size: 28px;
+  font-weight: 700;
+  color: #0369A1;
+}
+
+.version {
+  font-size: 12px;
+  color: #64748B;
+  background: #E0F2FE;
+  padding: 4px 12px;
+  border-radius: 12px;
+}
+
+.description {
+  color: #64748B;
+  font-size: 15px;
+}
+
+/* タブナビゲーション */
+.tabs {
+  display: flex;
+  gap: 8px;
+  margin-bottom: 24px;
+  background: white;
+  padding: 8px;
+  border-radius: 12px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+}
+
+.tab {
+  flex: 1;
+  padding: 12px 16px;
+  border: none;
+  border-radius: 8px;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  background: transparent;
+  color: #64748B;
+  transition: all 0.2s ease;
+}
+
+.tab:hover {
+  background: #F0F9FF;
+  color: #0369A1;
+}
+
+.tab.active {
+  background: linear-gradient(135deg, #38BDF8 0%, #7DD3FC 100%);
+  color: white;
+}
+
+/* メインコンテンツ */
+.options-content {
+  background: white;
+  border-radius: 16px;
+  padding: 32px;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.05);
+  min-height: 400px;
+}
+
+.settings-section h2 {
+  font-size: 20px;
+  font-weight: 700;
+  color: #0369A1;
+  margin-bottom: 8px;
+}
+
+.section-description {
+  color: #64748B;
+  margin-bottom: 24px;
+}
+
+/* 設定グループ */
+.setting-group {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.setting-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 16px;
+  background: #F8FAFC;
+  border-radius: 12px;
+  transition: background 0.2s ease;
+}
+
+.setting-item:hover {
+  background: #F0F9FF;
+}
+
+.setting-info {
+  flex: 1;
+}
+
+.setting-info label {
+  display: block;
+  font-size: 15px;
+  font-weight: 600;
+  color: #334155;
+  margin-bottom: 4px;
+}
+
+.setting-info p {
+  font-size: 13px;
+  color: #64748B;
+}
+
+/* トグルスイッチ */
+.switch {
+  position: relative;
+  display: inline-block;
+  width: 52px;
+  height: 28px;
+}
+
+.switch input {
+  opacity: 0;
+  width: 0;
+  height: 0;
+}
+
+.slider {
+  position: absolute;
+  cursor: pointer;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: #CBD5E1;
+  transition: 0.3s;
+  border-radius: 28px;
+}
+
+.slider:before {
+  position: absolute;
+  content: "";
+  height: 22px;
+  width: 22px;
+  left: 3px;
+  bottom: 3px;
+  background-color: white;
+  transition: 0.3s;
+  border-radius: 50%;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.15);
+}
+
+input:checked + .slider {
+  background: linear-gradient(135deg, #38BDF8 0%, #7DD3FC 100%);
+}
+
+input:checked + .slider:before {
+  transform: translateX(24px);
+}
+
+input:disabled + .slider {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+/* セレクトボックス */
+select {
+  padding: 10px 16px;
+  border: 2px solid #E0F2FE;
+  border-radius: 8px;
+  font-size: 14px;
+  color: #334155;
+  background: white;
+  cursor: pointer;
+  min-width: 200px;
+}
+
+select:focus {
+  outline: none;
+  border-color: #7DD3FC;
+}
+
+/* リスト入力 */
+.list-input {
+  display: flex;
+  gap: 8px;
+  margin-bottom: 16px;
+}
+
+.list-input input {
+  flex: 1;
+  padding: 12px 16px;
+  border: 2px solid #E0F2FE;
+  border-radius: 8px;
+  font-size: 14px;
+}
+
+.list-input input:focus {
+  outline: none;
+  border-color: #7DD3FC;
+}
+
+.list-input button {
+  padding: 12px 24px;
+  background: linear-gradient(135deg, #38BDF8 0%, #7DD3FC 100%);
+  color: white;
+  border: none;
+  border-radius: 8px;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: transform 0.2s ease;
+}
+
+.list-input button:hover {
+  transform: translateY(-2px);
+}
+
+/* メールリスト */
+.email-list {
+  list-style: none;
+  border: 2px solid #E0F2FE;
+  border-radius: 12px;
+  overflow: hidden;
+}
+
+.email-list li {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 12px 16px;
+  border-bottom: 1px solid #E0F2FE;
+}
+
+.email-list li:last-child {
+  border-bottom: none;
+}
+
+.email-list li.empty {
+  color: #94A3B8;
+  justify-content: center;
+  padding: 24px;
+}
+
+.email-icon {
+  font-size: 18px;
+}
+
+.email-text {
+  flex: 1;
+  font-size: 14px;
+  color: #334155;
+}
+
+.remove-btn {
+  width: 28px;
+  height: 28px;
+  border: none;
+  border-radius: 50%;
+  background: #FEE2E2;
+  color: #DC2626;
+  cursor: pointer;
+  font-size: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.2s ease;
+}
+
+.remove-btn:hover {
+  background: #FECACA;
+  transform: scale(1.1);
+}
+
+/* ルールプレースホルダー */
+.rules-placeholder {
+  text-align: center;
+  padding: 48px 24px;
+  background: #F8FAFC;
+  border-radius: 12px;
+}
+
+.placeholder-icon {
+  font-size: 48px;
+  margin-bottom: 16px;
+}
+
+.placeholder-hint {
+  color: #64748B;
+  margin-top: 24px;
+  margin-bottom: 12px;
+}
+
+.auto-rules {
+  list-style: none;
+  text-align: left;
+  max-width: 400px;
+  margin: 0 auto;
+}
+
+.auto-rules li {
+  padding: 8px 0;
+  color: #475569;
+  font-size: 13px;
+}
+
+/* フッター */
+.options-footer {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 24px;
+  padding-top: 24px;
+  border-top: 2px solid #E0F2FE;
+}
+
+.btn {
+  padding: 14px 28px;
+  border: none;
+  border-radius: 10px;
+  font-size: 15px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.btn-primary {
+  background: linear-gradient(135deg, #38BDF8 0%, #7DD3FC 100%);
+  color: white;
+}
+
+.btn-primary:hover:not(:disabled) {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 16px rgba(56, 189, 248, 0.4);
+}
+
+.btn-primary:disabled {
+  opacity: 0.7;
+  cursor: not-allowed;
+}
+
+.btn-danger {
+  background: #FEE2E2;
+  color: #DC2626;
+}
+
+.btn-danger:hover {
+  background: #FECACA;
+}
+
+/* ユーティリティ */
+.mt-8 {
+  margin-top: 32px;
+}
+
+/* ローディング/エラー */
+.loading,
+.error {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 300px;
+  color: #64748B;
+  font-size: 16px;
+}
+
+.error {
+  color: #DC2626;
+}
+
+/* ダークモード */
+@media (prefers-color-scheme: dark) {
+  body {
+    background: #0F172A;
+    color: #E0F2FE;
+  }
+
+  .options-header {
+    border-color: #38BDF8;
+  }
+
+  .logo h1 {
+    color: #7DD3FC;
+  }
+
+  .version {
+    background: #1E293B;
+    color: #94A3B8;
+  }
+
+  .description {
+    color: #94A3B8;
+  }
+
+  .tabs {
+    background: #1E293B;
+  }
+
+  .tab {
+    color: #94A3B8;
+  }
+
+  .tab:hover {
+    background: #334155;
+    color: #7DD3FC;
+  }
+
+  .options-content {
+    background: #1E293B;
+  }
+
+  .settings-section h2 {
+    color: #7DD3FC;
+  }
+
+  .section-description {
+    color: #94A3B8;
+  }
+
+  .setting-item {
+    background: #0F172A;
+  }
+
+  .setting-item:hover {
+    background: #334155;
+  }
+
+  .setting-info label {
+    color: #E0F2FE;
+  }
+
+  .setting-info p {
+    color: #94A3B8;
+  }
+
+  .slider {
+    background-color: #475569;
+  }
+
+  select {
+    background: #0F172A;
+    border-color: #334155;
+    color: #E0F2FE;
+  }
+
+  select:focus {
+    border-color: #7DD3FC;
+  }
+
+  .list-input input {
+    background: #0F172A;
+    border-color: #334155;
+    color: #E0F2FE;
+  }
+
+  .list-input input:focus {
+    border-color: #7DD3FC;
+  }
+
+  .email-list {
+    border-color: #334155;
+  }
+
+  .email-list li {
+    border-color: #334155;
+  }
+
+  .email-list li.empty {
+    color: #64748B;
+  }
+
+  .email-text {
+    color: #E0F2FE;
+  }
+
+  .rules-placeholder {
+    background: #0F172A;
+  }
+
+  .auto-rules li {
+    color: #94A3B8;
+  }
+
+  .options-footer {
+    border-color: #334155;
+  }
+}
