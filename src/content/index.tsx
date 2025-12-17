@@ -75,6 +75,8 @@ let settings: ExtensionSettings | null = null;
 let isProcessing = false;
 let hasInitialized = false;
 let refreshInterval: number | null = null;
+let lastHash = '';
+let tabObserver: MutationObserver | null = null;
 
 /**
  * 初期化
@@ -103,6 +105,9 @@ async function init(): Promise<void> {
 
     // 定期的にバッジをチェック・再適用（5秒ごと）
     startRefreshInterval();
+
+    // タブ切り替え検知を開始
+    startTabChangeDetection();
 
     // メッセージリスナー
     chrome.runtime.onMessage.addListener(handleMessage);
@@ -167,6 +172,127 @@ function refreshBadges(): void {
     // 処理済みフラグをリセット
     row.removeAttribute('data-gps-processed');
   });
+  processEmailsOnce();
+}
+
+/**
+ * タブ切り替え検知を開始
+ */
+function startTabChangeDetection(): void {
+  // 初期ハッシュを記録
+  lastHash = window.location.hash;
+
+  // URLハッシュ変更を監視（Gmailはハッシュで画面遷移）
+  window.addEventListener('hashchange', handleHashChange);
+
+  // Gmailタブ（メイン、プロモーション等）のクリックを監視
+  document.addEventListener('click', handleTabClick, true);
+
+  // メールリストエリアの変更を監視（タブ切り替え時にDOMが入れ替わる）
+  observeEmailListChanges();
+}
+
+/**
+ * ハッシュ変更ハンドラ
+ */
+function handleHashChange(): void {
+  const newHash = window.location.hash;
+  if (newHash !== lastHash) {
+    console.log('Gmail Priority Sorter: ハッシュ変更検出', lastHash, '->', newHash);
+    lastHash = newHash;
+    // 少し待ってから再処理（DOMが更新されるのを待つ）
+    setTimeout(() => {
+      forceRefresh();
+    }, 500);
+  }
+}
+
+/**
+ * タブクリックハンドラ
+ */
+function handleTabClick(event: MouseEvent): void {
+  const target = event.target as HTMLElement;
+
+  // Gmailのタブ要素をクリックしたかチェック
+  // タブは .aKz クラスや [role="tab"] を持つ
+  const tabElement = target.closest('.aKz, [role="tab"], .aAy');
+
+  if (tabElement) {
+    console.log('Gmail Priority Sorter: タブクリック検出');
+    // DOMの更新を待ってから再処理
+    setTimeout(() => {
+      forceRefresh();
+    }, 800);
+  }
+}
+
+/**
+ * メールリストエリアの変更を監視
+ */
+function observeEmailListChanges(): void {
+  if (tabObserver) {
+    tabObserver.disconnect();
+  }
+
+  // メインコンテンツエリアを監視
+  const mainArea = document.querySelector('[role="main"]');
+  if (!mainArea) {
+    // まだ読み込まれていない場合は少し待って再試行
+    setTimeout(observeEmailListChanges, 1000);
+    return;
+  }
+
+  tabObserver = new MutationObserver((mutations) => {
+    // 子要素の大きな変更（タブ切り替え）を検出
+    const hasSignificantChange = mutations.some(mutation => {
+      return mutation.type === 'childList' &&
+             (mutation.addedNodes.length > 5 || mutation.removedNodes.length > 5);
+    });
+
+    if (hasSignificantChange) {
+      console.log('Gmail Priority Sorter: メールリスト変更検出');
+      // デバウンス処理
+      debounceRefresh();
+    }
+  });
+
+  tabObserver.observe(mainArea, {
+    childList: true,
+    subtree: true
+  });
+}
+
+let debounceTimer: number | null = null;
+
+/**
+ * デバウンス付きリフレッシュ
+ */
+function debounceRefresh(): void {
+  if (debounceTimer) {
+    clearTimeout(debounceTimer);
+  }
+  debounceTimer = window.setTimeout(() => {
+    forceRefresh();
+    debounceTimer = null;
+  }, 300);
+}
+
+/**
+ * 強制リフレッシュ（全てのマーカーをリセット）
+ */
+function forceRefresh(): void {
+  console.log('Gmail Priority Sorter: 強制リフレッシュ実行');
+
+  // 全ての処理済みマーカーをリセット
+  document.querySelectorAll('[data-gps-processed]').forEach(el => {
+    el.removeAttribute('data-gps-processed');
+    el.removeAttribute('data-gps-id');
+  });
+
+  // 既存のバッジとスコアを削除
+  document.querySelectorAll('.gps-badge, .gps-score').forEach(el => el.remove());
+
+  // 再処理
   processEmailsOnce();
 }
 
