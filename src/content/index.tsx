@@ -294,14 +294,17 @@ function updateUI(classifiedEmails: ClassifiedEmail[], rows: HTMLElement[]): voi
     if (row.getAttribute('data-gps-processed') === 'true') return;
     row.setAttribute('data-gps-processed', 'true');
 
-    // バッジを追加
+    // バッジを追加（送信者名の後ろに配置）
     if (settings!.showBadges) {
       const existingBadge = row.querySelector('.gps-badge');
       if (!existingBadge) {
         const badge = createBadge(email);
-        const firstCell = row.querySelector('td.xY') || row.querySelector('td:nth-child(4)');
-        if (firstCell) {
-          firstCell.insertBefore(badge, firstCell.firstChild);
+        // 件名セルを探す（.bog = 件名、.y6 = 件名コンテナ）
+        const subjectCell = row.querySelector('.bog')?.parentElement ||
+                           row.querySelector('.y6')?.parentElement ||
+                           row.querySelector('td.xY');
+        if (subjectCell) {
+          subjectCell.insertBefore(badge, subjectCell.firstChild);
         }
       }
     }
