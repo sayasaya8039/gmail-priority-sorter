@@ -21,6 +21,38 @@ chrome.runtime.onInstalled.addListener((details) => {
 });
 
 /**
+ * タブ更新時にGmailでサイドパネルを有効化
+ */
+chrome.tabs.onUpdated.addListener(async (tabId, changeInfo, tab) => {
+  if (changeInfo.status === 'complete' && tab.url?.includes('mail.google.com')) {
+    try {
+      // このタブでサイドパネルを有効化
+      await chrome.sidePanel.setOptions({
+        tabId,
+        path: 'src/sidepanel/index.html',
+        enabled: true
+      });
+      console.log('Gmail Priority Sorter: サイドパネルを有効化しました');
+    } catch (error) {
+      console.error('サイドパネルの有効化に失敗:', error);
+    }
+  }
+});
+
+/**
+ * 拡張機能アイコンクリック時にサイドパネルを開く
+ */
+chrome.action.onClicked.addListener(async (tab) => {
+  if (tab.id) {
+    try {
+      await chrome.sidePanel.open({ tabId: tab.id });
+    } catch (error) {
+      console.error('サイドパネルを開けませんでした:', error);
+    }
+  }
+});
+
+/**
  * メッセージリスナー
  */
 chrome.runtime.onMessage.addListener((message: MessageType, _sender, sendResponse) => {
@@ -84,17 +116,5 @@ async function notifyAllTabs(message: unknown): Promise<void> {
     }
   }
 }
-
-/**
- * 拡張機能アイコンクリック時（ポップアップがない場合）
- */
-chrome.action.onClicked.addListener(async (tab) => {
-  if (tab.url?.includes('mail.google.com')) {
-    // Gmailタブの場合、コンテンツスクリプトにソート指示
-    if (tab.id) {
-      chrome.tabs.sendMessage(tab.id, { type: 'SORT_EMAILS' });
-    }
-  }
-});
 
 console.log('Gmail Priority Sorter Service Worker 起動完了');

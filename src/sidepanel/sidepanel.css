@@ -1,0 +1,325 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  font-size: 14px;
+  line-height: 1.5;
+  color: #334155;
+  background: linear-gradient(180deg, #F0F9FF 0%, #E0F2FE 100%);
+  min-height: 100vh;
+}
+
+.sidepanel-container {
+  padding: 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+/* ヘッダー */
+.sidepanel-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding-bottom: 12px;
+  border-bottom: 2px solid #7DD3FC;
+}
+
+.logo {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.logo-icon {
+  font-size: 24px;
+}
+
+.logo h1 {
+  font-size: 16px;
+  font-weight: 700;
+  color: #0369A1;
+}
+
+.version {
+  font-size: 10px;
+  color: #64748B;
+  background: #E0F2FE;
+  padding: 2px 8px;
+  border-radius: 8px;
+}
+
+/* セクション共通 */
+section {
+  background: white;
+  border-radius: 12px;
+  padding: 14px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+}
+
+section h2 {
+  font-size: 13px;
+  font-weight: 600;
+  color: #0369A1;
+  margin-bottom: 12px;
+}
+
+/* 統計 */
+.stats-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 8px;
+}
+
+.stat-card {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 10px 4px;
+  border-radius: 8px;
+}
+
+.stat-card.critical {
+  background: #FEE2E2;
+  color: #DC2626;
+}
+
+.stat-card.high {
+  background: #FFEDD5;
+  color: #EA580C;
+}
+
+.stat-card.medium {
+  background: #DBEAFE;
+  color: #2563EB;
+}
+
+.stat-card.low {
+  background: #F3F4F6;
+  color: #6B7280;
+}
+
+.stat-count {
+  font-size: 20px;
+  font-weight: 700;
+}
+
+.stat-label {
+  font-size: 10px;
+  font-weight: 600;
+}
+
+/* 設定トグル */
+.toggle-list {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.toggle-item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  cursor: pointer;
+  font-size: 13px;
+}
+
+.toggle-item input {
+  display: none;
+}
+
+.toggle-switch {
+  position: relative;
+  width: 40px;
+  height: 22px;
+  background: #CBD5E1;
+  border-radius: 11px;
+  transition: 0.3s;
+}
+
+.toggle-switch::after {
+  content: '';
+  position: absolute;
+  top: 2px;
+  left: 2px;
+  width: 18px;
+  height: 18px;
+  background: white;
+  border-radius: 50%;
+  transition: 0.3s;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.15);
+}
+
+input:checked + .toggle-switch {
+  background: linear-gradient(135deg, #38BDF8 0%, #7DD3FC 100%);
+}
+
+input:checked + .toggle-switch::after {
+  transform: translateX(18px);
+}
+
+/* ボタン */
+.actions-section {
+  display: flex;
+  gap: 8px;
+  background: transparent;
+  padding: 0;
+  box-shadow: none;
+}
+
+.btn {
+  flex: 1;
+  padding: 10px;
+  border: none;
+  border-radius: 8px;
+  font-size: 12px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.btn-primary {
+  background: linear-gradient(135deg, #38BDF8 0%, #7DD3FC 100%);
+  color: white;
+}
+
+.btn-primary:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(56, 189, 248, 0.4);
+}
+
+.btn-secondary {
+  background: #E0F2FE;
+  color: #0369A1;
+}
+
+.btn-secondary:hover {
+  background: #BAE6FD;
+}
+
+/* メール一覧 */
+.email-list {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  max-height: 300px;
+  overflow-y: auto;
+}
+
+.email-item {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px;
+  background: #F8FAFC;
+  border-radius: 8px;
+}
+
+.email-priority {
+  font-size: 10px;
+  font-weight: 600;
+  padding: 2px 6px;
+  border-radius: 6px;
+  white-space: nowrap;
+}
+
+.email-content {
+  flex: 1;
+  min-width: 0;
+}
+
+.email-sender {
+  font-size: 11px;
+  color: #64748B;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.email-subject {
+  font-size: 12px;
+  font-weight: 500;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.email-score {
+  font-size: 10px;
+  font-weight: bold;
+  color: white;
+  padding: 2px 6px;
+  border-radius: 10px;
+  min-width: 24px;
+  text-align: center;
+}
+
+/* フッター */
+.sidepanel-footer {
+  text-align: center;
+  padding: 12px;
+  color: #94A3B8;
+  font-size: 11px;
+  background: transparent;
+  box-shadow: none;
+}
+
+/* ローディング */
+.loading {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 200px;
+  color: #64748B;
+}
+
+/* ダークモード */
+@media (prefers-color-scheme: dark) {
+  body {
+    background: linear-gradient(180deg, #0F172A 0%, #1E293B 100%);
+    color: #E0F2FE;
+  }
+
+  .sidepanel-header {
+    border-color: #38BDF8;
+  }
+
+  .logo h1 {
+    color: #7DD3FC;
+  }
+
+  .version {
+    background: #1E293B;
+    color: #94A3B8;
+  }
+
+  section {
+    background: #1E293B;
+  }
+
+  section h2 {
+    color: #7DD3FC;
+  }
+
+  .email-item {
+    background: #0F172A;
+  }
+
+  .email-sender {
+    color: #94A3B8;
+  }
+
+  .btn-secondary {
+    background: #334155;
+    color: #7DD3FC;
+  }
+
+  .btn-secondary:hover {
+    background: #475569;
+  }
+}
