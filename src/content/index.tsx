@@ -74,6 +74,7 @@ const CATEGORY_CONFIG_LOCAL = {
 let settings: ExtensionSettings | null = null;
 let isProcessing = false;
 let hasInitialized = false;
+let refreshInterval: number | null = null;
 
 /**
  * 初期化
@@ -97,8 +98,11 @@ async function init(): Promise<void> {
     // DOMの準備を待つ
     await waitForGmailLoad();
 
-    // 初回処理のみ実行（自動ソートは無効化）
+    // 初回処理
     await processEmailsOnce();
+
+    // 定期的にバッジをチェック・再適用（5秒ごと）
+    startRefreshInterval();
 
     // メッセージリスナー
     chrome.runtime.onMessage.addListener(handleMessage);
@@ -128,6 +132,42 @@ function waitForGmailLoad(): Promise<void> {
     };
     checkReady();
   });
+}
+
+/**
+ * 定期的なバッジチェック開始
+ */
+function startRefreshInterval(): void {
+  if (refreshInterval) {
+    clearInterval(refreshInterval);
+  }
+
+  refreshInterval = window.setInterval(() => {
+    // バッジが消えていないかチェック
+    const rows = getEmailRows();
+    const hasMissingBadges = rows.some(row => {
+      const hasGpsId = row.getAttribute('data-gps-id');
+      const hasBadge = row.querySelector('.gps-badge');
+      return hasGpsId && !hasBadge;
+    });
+
+    if (hasMissingBadges) {
+      console.log('Gmail Priority Sorter: バッジ消失を検出、再適用中...');
+      refreshBadges();
+    }
+  }, 3000); // 3秒ごとにチェック
+}
+
+/**
+ * バッジを再適用
+ */
+function refreshBadges(): void {
+  const rows = getEmailRows();
+  rows.forEach(row => {
+    // 処理済みフラグをリセット
+    row.removeAttribute('data-gps-processed');
+  });
+  processEmailsOnce();
 }
 
 /**

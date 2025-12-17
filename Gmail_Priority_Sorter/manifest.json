@@ -27,7 +27,7 @@
   "content_scripts": [
     {
       "js": [
-        "assets/index.tsx-loader-R7XX9Gbs.js"
+        "assets/index.tsx-loader-uKgCHzls.js"
       ],
       "matches": [
         "https://mail.google.com/*"
@@ -47,7 +47,7 @@
       "resources": [
         "assets/storage-CS1t7rav.js",
         "assets/classifier-BcIm6e9n.js",
-        "assets/index.tsx-BVrtkMYi.js"
+        "assets/index.tsx-DS69FGXY.js"
       ],
       "use_dynamic_url": false
     }
