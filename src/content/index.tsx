@@ -5,7 +5,56 @@
 
 import { getSettings } from '../utils/storage';
 import { classifyAndSortEmails } from '../utils/classifier';
-import type { RawEmailData, ClassifiedEmail, ExtensionSettings, PRIORITY_CONFIG, CATEGORY_CONFIG } from '../types';
+import type { RawEmailData, ClassifiedEmail, ExtensionSettings } from '../types';
+
+/**
+ * CSSスタイルを注入
+ */
+function injectStyles(): void {
+  if (document.getElementById('gps-styles')) return;
+
+  const style = document.createElement('style');
+  style.id = 'gps-styles';
+  style.textContent = `
+    .gps-badge {
+      display: inline-flex !important;
+      align-items: center !important;
+      gap: 4px !important;
+      margin-right: 8px !important;
+      font-size: 11px !important;
+      vertical-align: middle !important;
+      white-space: nowrap !important;
+    }
+    .gps-category { font-size: 12px !important; }
+    .gps-priority {
+      padding: 2px 6px !important;
+      border-radius: 10px !important;
+      font-size: 10px !important;
+      font-weight: 600 !important;
+    }
+    .gps-score {
+      display: inline-block !important;
+      min-width: 24px !important;
+      height: 18px !important;
+      line-height: 18px !important;
+      text-align: center !important;
+      font-size: 10px !important;
+      font-weight: bold !important;
+      color: white !important;
+      border-radius: 9px !important;
+      margin-left: 8px !important;
+    }
+    .gps-critical { background-color: rgba(220, 38, 38, 0.05) !important; }
+    .gps-high { background-color: rgba(234, 88, 12, 0.05) !important; }
+    .gps-low { opacity: 0.85 !important; }
+    @keyframes gps-pulse {
+      0%, 100% { opacity: 1; }
+      50% { opacity: 0.7; }
+    }
+    .gps-critical .gps-priority { animation: gps-pulse 2s ease-in-out infinite; }
+  `;
+  document.head.appendChild(style);
+}
 
 // 型定義をインポートできないので、ここで再定義
 const PRIORITY_CONFIG_LOCAL = {
@@ -38,6 +87,9 @@ async function init(): Promise<void> {
   console.log('Gmail Priority Sorter: 初期化開始');
 
   try {
+    // CSSを注入
+    injectStyles();
+
     settings = await getSettings();
 
     if (!settings.enabled) {

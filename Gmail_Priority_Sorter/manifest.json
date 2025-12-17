@@ -27,13 +27,10 @@
   "content_scripts": [
     {
       "js": [
-        "assets/index.tsx-loader-vaUU6Qha.js"
+        "assets/index.tsx-loader-isU-iKIZ.js"
       ],
       "matches": [
         "https://mail.google.com/*"
-      ],
-      "css": [
-        "src/styles/content.css"
       ],
       "run_at": "document_idle"
     }
@@ -50,7 +47,7 @@
       "resources": [
         "assets/storage-CS1t7rav.js",
         "assets/classifier-BcIm6e9n.js",
-        "assets/index.tsx-7x_6PLLn.js"
+        "assets/index.tsx-BmSsfYtr.js"
       ],
       "use_dynamic_url": false
     }

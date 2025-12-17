@@ -28,7 +28,6 @@
     {
       "matches": ["https://mail.google.com/*"],
       "js": ["src/content/index.tsx"],
-      "css": ["src/styles/content.css"],
       "run_at": "document_idle"
     }
   ],
