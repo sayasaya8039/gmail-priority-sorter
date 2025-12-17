@@ -209,6 +209,9 @@ async function processEmailsOnce(): Promise<void> {
     // UIを更新（バッジとスコアの追加のみ、ソートは無効）
     updateUI(classifiedEmails, emailRows);
 
+    // サイドパネルに分類結果を送信
+    sendToSidePanel(classifiedEmails);
+
   } catch (error) {
     console.error('Gmail Priority Sorter: 処理エラー', error);
   } finally {
@@ -400,6 +403,26 @@ function applyRowStyle(row: HTMLElement, email: ClassifiedEmail): void {
     row.style.borderLeft = `3px solid ${priorityConfig.color}`;
   } else {
     row.style.borderLeft = '';
+  }
+}
+
+/**
+ * 分類結果をサイドパネルに送信
+ */
+function sendToSidePanel(classifiedEmails: ClassifiedEmail[]): void {
+  try {
+    chrome.runtime.sendMessage({
+      type: 'EMAILS_CLASSIFIED',
+      emails: classifiedEmails.map(email => ({
+        sender: email.sender,
+        subject: email.subject,
+        priority: email.priority,
+        urgencyScore: email.urgencyScore,
+        category: email.category,
+      })),
+    });
+  } catch (error) {
+    // サイドパネルが開いていない場合はエラーを無視
   }
 }
 
