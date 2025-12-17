@@ -601,6 +601,26 @@ pip list --outdated
 3. **公式ドキュメントを確認** - WebSearchで最新情報を取得
 4. **依存関係を確認** - バージョン不整合がないか
 
+### AIツール（Edit/Write/Bash）エラー対処法
+
+| エラー | 原因 | 対策 |
+|--------|------|------|
+| Edit: "File has been unexpectedly modified" | IDEや他プロセスがファイルを自動変更 | `git restore` + `sed` で修正、またはIDEを閉じてから再実行 |
+| Write: "File has not been read yet" | Readキャッシュが期限切れ・無効化 | Write直前に必ずRead実行、またはbashコマンドで直接操作 |
+| Bash heredoc: "Bad substitution" | テンプレートリテラル（バッククォート）がbashと衝突 | `sed` で部分修正、または `git restore` + `sed` |
+| Python: "UnicodeDecodeError" | 混在エンコーディング（UTF-8/Shift-JIS） | `git restore` で復元後に修正適用 |
+| PowerShell: 実行ポリシーエラー | Windowsのスクリプト実行制限 | PowerShellを避けてbash/sedを使用 |
+
+#### 推奨ワークフロー（ファイル編集時）
+
+```bash
+# IDEが開いているプロジェクトでの安全な編集手順
+git restore <file>                    # 1. 元の状態に復元
+sed -i 's/old/new/' <file>           # 2. sedで部分修正
+git diff <file>                       # 3. 変更確認
+npm run build                         # 4. ビルド確認
+```
+
 ---
 
 ## note記事作成ガイドライン
@@ -689,6 +709,7 @@ https://note.com/alvis8039/message
 
 | 日付 | 内容 |
 |------|------|
+| 2025年12月18日 | AIツール（Edit/Write/Bash）エラー対処法を追加 |
 | 2025年12月17日 | note記事作成ガイドラインを追加 |
 | 2025年12月17日 | README.md作成・更新ルールを強化（必須化） |
 | 2025年12月 | 開発言語の優先度セクションを追加 |

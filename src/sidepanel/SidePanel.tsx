@@ -65,8 +65,13 @@ const SidePanel: React.FC = () => {
 
   const requestEmailData = () => {
     chrome.tabs.query({ active: true, currentWindow: true }, (tabs) => {
-      if (tabs[0]?.id) {
-        chrome.tabs.sendMessage(tabs[0].id, { type: 'REFRESH' });
+      const tab = tabs[0];
+      // Gmail タブの場合のみメッセージを送信
+      if (tab?.id && tab.url?.includes('mail.google.com')) {
+        chrome.tabs.sendMessage(tab.id, { type: 'REFRESH' }).catch(() => {
+          // コンテンツスクリプトがまだ読み込まれていない場合は無視
+          console.log('Gmail Priority Sorter: コンテンツスクリプトに接続できません。ページをリロードしてください。');
+        });
       }
     });
   };
