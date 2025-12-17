@@ -249,7 +249,7 @@ function observeEmailListChanges(): void {
              (mutation.addedNodes.length > 5 || mutation.removedNodes.length > 5);
     });
 
-    if (hasSignificantChange) {
+    if (hasSignificantChange && !isRefreshing) {
       console.log('Gmail Priority Sorter: メールリスト変更検出');
       // デバウンス処理
       debounceRefresh();
@@ -263,6 +263,7 @@ function observeEmailListChanges(): void {
 }
 
 let debounceTimer: number | null = null;
+let isRefreshing = false; // 無限ループ防止フラグ
 
 /**
  * デバウンス付きリフレッシュ
@@ -281,6 +282,8 @@ function debounceRefresh(): void {
  * 強制リフレッシュ（全てのマーカーをリセット）
  */
 function forceRefresh(): void {
+  if (isRefreshing) return; // 既にリフレッシュ中なら何もしない
+  isRefreshing = true;
   console.log('Gmail Priority Sorter: 強制リフレッシュ実行');
 
   // 全ての処理済みマーカーをリセット
@@ -293,6 +296,8 @@ function forceRefresh(): void {
   document.querySelectorAll('.gps-badge, .gps-score').forEach(el => el.remove());
 
   // 再処理
+  // フラグをリセット（DOM更新が完了するまで少し待つ）
+  setTimeout(() => { isRefreshing = false; }, 500);
   processEmailsOnce();
 }
 
